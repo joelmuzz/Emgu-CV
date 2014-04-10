@@ -22,7 +22,8 @@
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>true</MtouchDebug>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7, ARMv7s</MtouchArch>
     <MtouchExtraArgs>-cxx</MtouchExtraArgs>
   </PropertyGroup>
@@ -35,7 +36,8 @@
     <ConsolePause>false</ConsolePause>
     <MtouchLink>None</MtouchLink>
     <DefineConstants>IOS</DefineConstants>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7, ARMv7s</MtouchArch>
     <MtouchExtraArgs>-cxx</MtouchExtraArgs>
   </PropertyGroup>
@@ -51,9 +53,11 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7, ARMv7s</MtouchArch>
-    <IpaPackageName />
+    <IpaPackageName>
+    </IpaPackageName>
     <MtouchExtraArgs>-cxx</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -66,10 +70,12 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DefineConstants>IOS</DefineConstants>
     <MtouchLink>None</MtouchLink>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchArch>ARMv7</MtouchArch>
-    <IpaPackageName />
+    <IpaPackageName>
+    </IpaPackageName>
     <MtouchExtraArgs>-cxx</MtouchExtraArgs>
   </PropertyGroup>
   <ItemGroup>

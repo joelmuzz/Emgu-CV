@@ -1,7 +1,7 @@
 ﻿//----------------------------------------------------------------------------
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.       
 //----------------------------------------------------------------------------
-
+#if !IOS
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -308,3 +308,4 @@ namespace Emgu.CV
       internal static extern IntPtr cvGetOpenniCaptureContext(IntPtr capture);
    }
 }
+#endif

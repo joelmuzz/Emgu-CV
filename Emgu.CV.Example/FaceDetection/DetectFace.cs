@@ -8,7 +8,9 @@ using System.Diagnostics;
 using System.Drawing;
 using Emgu.CV;
 using Emgu.CV.Structure;
+#if !IOS
 using Emgu.CV.GPU;
+#endif
 
 namespace FaceDetection
 {
@@ -18,6 +20,7 @@ namespace FaceDetection
       {
          Stopwatch watch;
 
+         #if !IOS
          if (GpuInvoke.HasCuda)
          {
             using (GpuCascadeClassifier face = new GpuCascadeClassifier(faceFileName))
@@ -53,6 +56,7 @@ namespace FaceDetection
             }
          }
          else
+         #endif
          {
             //Read the HaarCascade objects
             using (CascadeClassifier face = new CascadeClassifier(faceFileName))

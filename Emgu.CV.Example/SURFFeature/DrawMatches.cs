@@ -11,7 +11,9 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+#if !IOS
 using Emgu.CV.GPU;
+#endif
 
 namespace SURFFeatureExample
 {
@@ -24,7 +26,7 @@ namespace SURFFeatureExample
          SURFDetector surfCPU = new SURFDetector(500, false);
          Stopwatch watch;
          homography = null;
-
+         #if !IOS
          if (GpuInvoke.HasCuda)
          {
             GpuSURFDetector surfGPU = new GpuSURFDetector(surfCPU.SURFParams, 0.01f);
@@ -81,6 +83,7 @@ namespace SURFFeatureExample
             }
          }
          else
+         #endif
          {
             //extract features from the object image
             modelKeyPoints = new VectorOfKeyPoint();

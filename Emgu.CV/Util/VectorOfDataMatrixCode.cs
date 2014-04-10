@@ -87,10 +87,11 @@ namespace Emgu.CV
       [DllImport(CvInvoke.EXTERN_LIBRARY, CallingConvention = CvInvoke.CvCallingConvention)]
       internal static extern IntPtr VectorOfDataMatrixCodeGetItem(IntPtr v, int index);
 
+      /*
       [DllImport(CvInvoke.EXTERN_LIBRARY, CallingConvention = CvInvoke.CvCallingConvention)]
       internal static extern void VectorOfDataMatrixCodeFind(IntPtr v, IntPtr image);
 
       [DllImport(CvInvoke.EXTERN_LIBRARY, CallingConvention = CvInvoke.CvCallingConvention)]
-      internal static extern void VectorOfDataMatrixCodeDraw(IntPtr v, IntPtr image);
+      internal static extern void VectorOfDataMatrixCodeDraw(IntPtr v, IntPtr image);*/
    }
 }

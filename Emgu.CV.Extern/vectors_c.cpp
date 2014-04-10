@@ -326,6 +326,11 @@ std::vector<cv::Mat>* VectorOfMatCreate()
    return new std::vector<cv::Mat>();
 }
 
+std::vector<cv::Mat>* VectorOfMatCreateSize(int size)
+{
+   return new std::vector<cv::Mat>(size);
+}
+
 int VectorOfMatGetSize(std::vector<cv::Mat>* v)
 {
    return v->size();

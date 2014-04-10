@@ -2,6 +2,7 @@
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.       
 //----------------------------------------------------------------------------
 
+#if !IOS
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
@@ -129,3 +130,4 @@ namespace Emgu.CV.Tiff
       }
    }
 }
+#endif

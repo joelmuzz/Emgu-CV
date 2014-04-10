@@ -29,7 +29,7 @@ namespace Emgu.CV.GPU
 
       protected override void DisposeObject()
       {
-         if (_ptr != null)
+         if (_ptr != IntPtr.Zero)
             GpuInvoke.gpuFilterRelease(ref _ptr);
       }
 

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.       
 //----------------------------------------------------------------------------
-
+#if !IOS
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -118,3 +118,4 @@ namespace Emgu.CV
       internal extern static void tiffWriteImageInfo(IntPtr pTiff, int bitsPerSample, int samplesPerPixel);
    }
 }
+#endif
