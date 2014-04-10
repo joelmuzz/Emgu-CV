@@ -162,6 +162,8 @@ CVAPI(void) VectorOfDataMatrixCodeDraw(std::vector<CvDataMatrixCode>* v, IplImag
 //----------------------------------------------------------------------------
 CVAPI(std::vector<cv::Mat>*) VectorOfMatCreate();
 
+CVAPI(std::vector<cv::Mat>*) VectorOfMatCreateSize(int size);
+
 CVAPI(int) VectorOfMatGetSize(std::vector<cv::Mat>* v);
 
 CVAPI(void) VectorOfMatPush(std::vector<cv::Mat>* v, cv::Mat* value);
