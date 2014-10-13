@@ -321,22 +321,22 @@ void gpuMatSwapChannels(cv::gpu::GpuMat* image, const int* dstOrder, cv::gpu::St
    cv::gpu::swapChannels(*image, dstOrder, stream ? *stream : cv::gpu::Stream::Null());
 }
 
-void gpuMatConvertTo(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, double alpha, double beta, cv::gpu::Stream* stream)
+void gpuMatConvertTo(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, double alpha, double beta)
 {
-   src->convertTo(*dst, dst->type(), alpha, beta, stream ? *stream : cv::gpu::Stream::Null());
+   src->convertTo(*dst, dst->type(), alpha, beta);
 }
 
-void gpuMatCopy(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
+void gpuMatCopy(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, const cv::gpu::GpuMat* mask)
 {
    if (mask)
-      src->copyTo(*dst, *mask, stream ? *stream : cv::gpu::Stream::Null());
+      src->copyTo(*dst, *mask);
    else
-      src->copyTo(*dst, stream ? *stream : cv::gpu::Stream::Null());
+      src->copyTo(*dst);
 }
 
-void gpuMatSetTo(cv::gpu::GpuMat* mat, const CvScalar s, const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
+void gpuMatSetTo(cv::gpu::GpuMat* mat, const CvScalar s, const cv::gpu::GpuMat* mask)
 {
-      (*mat).setTo(s, mask ? *mask : cv::gpu::GpuMat(), stream ? *stream : cv::gpu::Stream::Null());
+      (*mat).setTo(s, mask ? *mask : cv::gpu::GpuMat());
 }
 
 void gpuMatResize(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, int interpolation, cv::gpu::Stream* stream)
@@ -496,21 +496,10 @@ void gpuMatReduce(const cv::gpu::GpuMat* mtx, cv::gpu::GpuMat* vec, int dim, int
    cv::gpu::reduce(*mtx, *vec, dim, reduceOp, vec->depth(), stream ? *stream : cv::gpu::Stream::Null());
 }
 
-cv::gpu::LookUpTable* gpuLookUpTableCreate( const CvArr* lut )
+void gpuMatLUT(const cv::gpu::GpuMat* src, const CvArr* lut, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
 {
    cv::Mat lutMat = cv::cvarrToMat(lut);
-   cv::Ptr<cv::gpu::LookUpTable> ptr = cv::gpu::createLookUpTable(lutMat);
-   ptr.addref();
-   return ptr.obj;
-}
-void gpuLookUpTableTransform(cv::gpu::LookUpTable* lut, cv::gpu::GpuMat* image, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
-{
-   lut->transform(*image, *dst, stream ? *stream : cv::gpu::Stream::Null());
-}
-void gpuLookUpTableRelease(cv::gpu::LookUpTable** lut)
-{
-   delete *lut;
-   *lut=0;
+   cv::gpu::LUT(*src, lutMat, *dst, stream ? *stream : cv::gpu::Stream::Null());
 }
 
 void gpuMatBitwiseNot(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
@@ -523,9 +512,9 @@ void gpuMatBitwiseAnd(const cv::gpu::GpuMat* src1, const cv::gpu::GpuMat* src2, 
    cv::gpu::bitwise_and(*src1, *src2, *dst, mask ? *mask : cv::gpu::GpuMat(), stream ? *stream : cv::gpu::Stream::Null());
 }
 
-void gpuMatBitwiseAndS(const cv::gpu::GpuMat* src1, const cv::Scalar sc, cv::gpu::GpuMat* dst, const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
+void gpuMatBitwiseAndS(const cv::gpu::GpuMat* src1, const cv::Scalar sc, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
 {
-   cv::gpu::bitwise_and(*src1, sc, *dst, mask ? *mask : cv::gpu::GpuMat(), stream ? *stream : cv::gpu::Stream::Null());
+   cv::gpu::bitwise_and(*src1, sc, *dst, stream ? *stream : cv::gpu::Stream::Null());
 }
 
 void gpuMatBitwiseOr(const cv::gpu::GpuMat* src1, const cv::gpu::GpuMat* src2, cv::gpu::GpuMat* dst, const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
@@ -533,9 +522,9 @@ void gpuMatBitwiseOr(const cv::gpu::GpuMat* src1, const cv::gpu::GpuMat* src2, c
    cv::gpu::bitwise_or(*src1, *src2, *dst, mask ? *mask : cv::gpu::GpuMat(), stream ? *stream : cv::gpu::Stream::Null());
 }
 
-void gpuMatBitwiseOrS(const cv::gpu::GpuMat* src1, const cv::Scalar sc, cv::gpu::GpuMat* dst,  const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
+void gpuMatBitwiseOrS(const cv::gpu::GpuMat* src1, const cv::Scalar sc, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
 {
-   cv::gpu::bitwise_or(*src1, sc, *dst, mask ? *mask : cv::gpu::GpuMat(), stream ? *stream : cv::gpu::Stream::Null());
+   cv::gpu::bitwise_or(*src1, sc, *dst, stream ? *stream : cv::gpu::Stream::Null());
 }
 
 void gpuMatBitwiseXor(const cv::gpu::GpuMat* src1, const cv::gpu::GpuMat* src2, cv::gpu::GpuMat* dst, const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
@@ -543,9 +532,9 @@ void gpuMatBitwiseXor(const cv::gpu::GpuMat* src1, const cv::gpu::GpuMat* src2, 
    cv::gpu::bitwise_xor(*src1, *src2, *dst, mask ? *mask : cv::gpu::GpuMat(), stream ? *stream : cv::gpu::Stream::Null());
 }
 
-void gpuMatBitwiseXorS(const cv::gpu::GpuMat* src1, const cv::Scalar sc, cv::gpu::GpuMat* dst, const cv::gpu::GpuMat* mask, cv::gpu::Stream* stream)
+void gpuMatBitwiseXorS(const cv::gpu::GpuMat* src1, const cv::Scalar sc, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
 {
-   cv::gpu::bitwise_xor(*src1, sc, *dst,  mask ? *mask : cv::gpu::GpuMat(), stream ? *stream : cv::gpu::Stream::Null());
+   cv::gpu::bitwise_xor(*src1, sc, *dst, stream ? *stream : cv::gpu::Stream::Null());
 }
 
 void gpuMatMin(const cv::gpu::GpuMat* src1, const cv::gpu::GpuMat* src2, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
@@ -568,58 +557,43 @@ void gpuMatMaxS(const cv::gpu::GpuMat* src1, double src2, cv::gpu::GpuMat* dst, 
    cv::gpu::max(*src1, src2, *dst, stream ? *stream : cv::gpu::Stream::Null());
 }
 
-cv::gpu::Filter* gpuCreateSobelFilter(int srcType, int dstType,  int dx, int dy, int ksize, double scale, int rowBorderType, int columnBorderType)
+void gpuMatSobel(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, int dx, int dy, cv::gpu::GpuMat* buffer, int ksize, double scale, int rowBorderType, int columnBorderType, cv::gpu::Stream* stream)
 {
-   cv::Ptr<cv::gpu::Filter> ptr =  cv::gpu::createSobelFilter(srcType, dstType, dx, dy, ksize, scale, rowBorderType, columnBorderType);
-   ptr.addref();
-   return ptr.obj;
+   cv::gpu::GpuMat bufferMat = buffer ? *buffer : cv::gpu::GpuMat();
+   cv::gpu::Sobel(*src, *dst, dst->depth(), dx, dy, bufferMat, ksize, scale, rowBorderType, columnBorderType, stream ? *stream : cv::gpu::Stream::Null()); 
 }
 
-cv::gpu::Filter* gpuCreateGaussianFilter(int srcType, int dstType, emgu::size* ksize, double sigma1, double sigma2, int rowBorderType, int columnBorderType)
+void gpuMatGaussianBlur(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, CvSize ksize, cv::gpu::GpuMat* buffer, double sigma1, double sigma2, int rowBorderType, int columnBorderType, cv::gpu::Stream* stream)
 {
-   cv::Size s(ksize->width, ksize->height);
-   cv::Ptr<cv::gpu::Filter> ptr = cv::gpu::createGaussianFilter(srcType, dstType, s, sigma1, sigma2, rowBorderType, columnBorderType); 
-   ptr.addref();
-   return ptr.obj;
+   cv::gpu::GpuMat bufferMat = buffer ? *buffer : cv::gpu::GpuMat();
+   cv::gpu::GaussianBlur(*src, *dst, ksize, bufferMat, sigma1, sigma2, rowBorderType, columnBorderType, stream ? *stream : cv::gpu::Stream::Null());
 }
 
-cv::gpu::Filter* gpuCreateLaplacianFilter(int srcType, int dstType, int ksize, double scale, int borderMode, CvScalar* borderValue)
+void gpuMatLaplacian(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, int ksize, double scale, int borderType, cv::gpu::Stream* stream)
 {
-   cv::Ptr<cv::gpu::Filter> ptr = cv::gpu::createLaplacianFilter(srcType, dstType, ksize, scale, borderMode, *borderValue);
-   ptr.addref();
-   return ptr.obj;
+   cv::gpu::Laplacian(*src, *dst, src->depth(), ksize, scale, borderType, stream ? *stream : cv::gpu::Stream::Null());
 }
 
-cv::gpu::Filter* gpuCreateLinearFilter(int srcType, int dstType, const CvArr* kernel, CvPoint* anchor, int borderMode, CvScalar* borderValue)
-{
-   cv::Mat kMat = cv::cvarrToMat(kernel);
-   cv::Ptr<cv::gpu::Filter> ptr = cv::gpu::createLinearFilter(srcType, dstType, kMat, *anchor, borderMode, *borderValue);
-   ptr.addref();
-   return ptr.obj;
-}
-
-cv::gpu::Filter* gpuCreateBoxMaxFilter( int srcType, emgu::size* ksize, CvPoint* anchor, int borderMode, CvScalar* borderValue)
-{
-   cv::Size s(ksize->width, ksize->height);
-   cv::Ptr<cv::gpu::Filter> ptr = cv::gpu::createBoxMaxFilter(srcType, s, *anchor, borderMode, *borderValue);
-   ptr.addref();
-   return ptr.obj;
-}
-
-cv::gpu::Filter* gpuCreateBoxMinFilter( int srcType, emgu::size* ksize, CvPoint* anchor, int borderMode, CvScalar* borderValue)
-{
-   cv::Size s(ksize->width, ksize->height);
-   cv::Ptr<cv::gpu::Filter> ptr = cv::gpu::createBoxMinFilter(srcType, s, *anchor, borderMode, *borderValue);
-   ptr.addref();
-   return ptr.obj;
-}
-
-cv::gpu::Filter* gpuCreateMorphologyFilter( int op, int srcType, const CvArr* kernel, CvPoint* anchor, int iterations)
+void gpuMatErode( const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, const CvArr* kernel, cv::gpu::GpuMat* buffer, CvPoint anchor, int iterations, cv::gpu::Stream* stream)
 {
    cv::Mat kernelMat = kernel ? cv::cvarrToMat(kernel) : cv::Mat();
-   cv::Ptr<cv::gpu::Filter> ptr = cv::gpu::createMorphologyFilter(op, srcType, kernelMat, *anchor, iterations);
-   ptr.addref();
-   return ptr.obj;
+   cv::gpu::GpuMat bufferMat = buffer ? *buffer : cv::gpu::GpuMat();
+   cv::gpu::erode(*src, *dst, kernelMat, bufferMat, anchor, iterations, stream ? *stream : cv::gpu::Stream::Null());
+}
+
+void gpuMatDilate( const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, const CvArr* kernel, cv::gpu::GpuMat* buffer, CvPoint anchor, int iterations, cv::gpu::Stream* stream)
+{
+   cv::Mat kernelMat = kernel ? cv::cvarrToMat(kernel) : cv::Mat();
+   cv::gpu::GpuMat bufferMat = buffer ? *buffer : cv::gpu::GpuMat();
+   cv::gpu::dilate(*src, *dst, kernelMat, bufferMat, anchor, iterations, stream ? *stream : cv::gpu::Stream::Null());
+}
+
+void gpuMatMorphologyEx( const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, int op, const CvArr* kernel, cv::gpu::GpuMat* buffer1, cv::gpu::GpuMat* buffer2, CvPoint anchor, int iterations, cv::gpu::Stream* stream)
+{
+   cv::Mat kernelMat = kernel ? cv::cvarrToMat(kernel) : cv::Mat();
+   cv::gpu::GpuMat buffer1Mat = buffer1 ? *buffer1 : cv::gpu::GpuMat();
+   cv::gpu::GpuMat buffer2Mat = buffer2 ? *buffer2 : cv::gpu::GpuMat();
+   cv::gpu::morphologyEx(*src, *dst, op, kernelMat, buffer1Mat, buffer2Mat, anchor, iterations, stream ? *stream : cv::gpu::Stream::Null());
 }
 
 void gpuMatGemm(const cv::gpu::GpuMat* src1, const cv::gpu::GpuMat* src2, double alpha, 
@@ -699,22 +673,9 @@ void gpuMatIntegral(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* sum, cv::gpu::G
    }
 }
 
-cv::gpu::CornernessCriteria* gpuCreateHarrisCorner(int srcType, int blockSize, int ksize, double k, int borderType)
+void gpuMatCornerHarris(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, int blockSize, int ksize, double k, int borderType)
 {
-   cv::Ptr<cv::gpu::CornernessCriteria> ptr = cv::gpu::createHarrisCorner(srcType, blockSize, ksize, k, borderType);
-   ptr.addref();
-   return ptr.obj;
-}
-
-void gpuCornernessCriteriaCompute(cv::gpu::CornernessCriteria* detector, const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
-{
-   detector->compute(*src, *dst, stream ? *stream : cv::gpu::Stream::Null());
-}
-
-void gpuCornernessCriteriaRelease(cv::gpu::CornernessCriteria** detector)
-{
-   delete *detector;
-   *detector = 0;
+   cv::gpu::cornerHarris(*src, *dst, blockSize, ksize, k, borderType);
 }
 
 void gpuMatDft(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, int flags, cv::gpu::Stream* stream)
@@ -722,20 +683,9 @@ void gpuMatDft(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, int flags, cv::
    cv::gpu::dft(*src, *dst, dst->size(), flags | (dst->channels() == 1 ? cv::DFT_REAL_OUTPUT : 0), stream ? *stream : cv::gpu::Stream::Null());
 }
 
-cv::gpu::CannyEdgeDetector* gpuCreateCannyEdgeDetector(double lowThreshold, double highThreshold, int apertureSize, bool L2gradient)
+void gpuMatCanny(const cv::gpu::GpuMat* image, cv::gpu::GpuMat* edges, double lowThreshold, double highThreshold, int apertureSize, bool L2gradient)
 {
-   cv::Ptr<cv::gpu::CannyEdgeDetector> ptr = cv::gpu::createCannyEdgeDetector(lowThreshold, highThreshold, apertureSize, L2gradient);
-   ptr.addref();
-   return ptr.obj;
-}
-void gpuCannyEdgeDetectorDetect(cv::gpu::CannyEdgeDetector* detector, cv::gpu::GpuMat* src, cv::gpu::GpuMat* edges)
-{
-   detector->detect(*src, *edges);
-}
-void gpuCannyEdgeDetectorRelease(cv::gpu::CannyEdgeDetector** detector)
-{
-   delete *detector;
-   *detector = 0;
+   cv::gpu::Canny(*image, *edges, lowThreshold, highThreshold, apertureSize, L2gradient);
 }
 
 //----------------------------------------------------------------------------
@@ -743,17 +693,15 @@ void gpuCannyEdgeDetectorRelease(cv::gpu::CannyEdgeDetector** detector)
 //  GpuGoodFeaturesToTrackDetector
 //
 //----------------------------------------------------------------------------
-cv::gpu::CornersDetector* gpuGoodFeaturesToTrackDetectorCreate(int srcType, int maxCorners, double qualityLevel, double minDistance, int blockSize, bool useHarrisDetector, double harrisK )
+cv::gpu::GoodFeaturesToTrackDetector_GPU* gpuGoodFeaturesToTrackDetectorCreate(int maxCorners, double qualityLevel, double minDistance)
 {
-	cv::Ptr<cv::gpu::CornersDetector> detector =  cv::gpu::createGoodFeaturesToTrackDetector (srcType, maxCorners, qualityLevel, minDistance, blockSize, useHarrisDetector, harrisK );
-	detector.addref();
-	return detector.obj;
+   return new cv::gpu::GoodFeaturesToTrackDetector_GPU(maxCorners, qualityLevel, minDistance);
 }
-void gpuCornersDetectorDetect(cv::gpu::CornersDetector* detector, const cv::gpu::GpuMat* image, cv::gpu::GpuMat* corners, const cv::gpu::GpuMat* mask)
+void gpuGoodFeaturesToTrackDetectorDetect(cv::gpu::GoodFeaturesToTrackDetector_GPU* detector, const cv::gpu::GpuMat* image, cv::gpu::GpuMat* corners, const cv::gpu::GpuMat* mask)
 {
-   detector->detect (*image, *corners, mask ? *mask : cv::gpu::GpuMat());
+   (*detector)(*image, *corners, mask ? *mask : cv::gpu::GpuMat());
 }
-void gpuCornersDetectorRelease(cv::gpu::CornersDetector** detector)
+void gpuGoodFeaturesToTrackDetectorRelease(cv::gpu::GoodFeaturesToTrackDetector_GPU** detector)
 {
    delete *detector;
    *detector=0;
@@ -774,23 +722,29 @@ void gpuCreateOpticalFlowNeedleMap(const cv::gpu::GpuMat* u, const cv::gpu::GpuM
 //  GpuTemplateMatching
 //
 //----------------------------------------------------------------------------
-cv::gpu::TemplateMatching* gpuTemplateMatchingCreate(int srcType, int method, emgu::size* blockSize)
+cv::gpu::MatchTemplateBuf* gpuMatchTemplateBufCreate()
 {
-   cv::Size s(blockSize->width, blockSize->height);
-	cv::Ptr<cv::gpu::TemplateMatching> ptr = cv::gpu::createTemplateMatching(srcType, method, s);
-   ptr.addref();
-   return ptr.obj;
+   return new cv::gpu::MatchTemplateBuf();
+}
+void gpuMatchTemplateBufRelease(cv::gpu::MatchTemplateBuf** buffer)
+{
+   delete *buffer;
+   *buffer = 0;
 }
 
-void gpuTemplateMatchingMatch(cv::gpu::TemplateMatching* tm, const cv::gpu::GpuMat* image, const cv::gpu::GpuMat* templ, cv::gpu::GpuMat* result,  cv::gpu::Stream* stream)
+void gpuMatMatchTemplate(const cv::gpu::GpuMat* image, const cv::gpu::GpuMat* templ, cv::gpu::GpuMat* result, int method, cv::gpu::MatchTemplateBuf* buffer, cv::gpu::Stream* stream)
 {
-   tm->match(*image, *templ, *result, stream ? *stream : cv::gpu::Stream::Null());
-}
-
-void gpuTemplateMatchingRelease(cv::gpu::TemplateMatching** tm)
-{
-   delete *tm;
-   *tm = 0;
+   if (buffer)
+      cv::gpu::matchTemplate(*image, *templ, *result, method, *buffer, stream ? *stream : cv::gpu::Stream::Null());
+   else
+   {
+      if (stream)
+         CV_Error(CV_StsError, "Must specify gpu MatchTemplateBuf when using Stream");
+      else
+      {
+         cv::gpu::matchTemplate(*image, *templ, *result, method);
+      }
+   }
 }
 
 //----------------------------------------------------------------------------
@@ -798,12 +752,8 @@ void gpuTemplateMatchingRelease(cv::gpu::TemplateMatching** tm)
 //  GpuFilter
 //
 //----------------------------------------------------------------------------
-void gpuFilterApply(cv::gpu::Filter* filter, cv::gpu::GpuMat* image, cv::gpu::GpuMat* dst, cv::gpu::Stream* stream)
+void gpuMatFilter2D(const cv::gpu::GpuMat* src, cv::gpu::GpuMat* dst, const CvArr* kernel, CvPoint anchor, int borderType, cv::gpu::Stream* stream)
 {
-   filter->apply(*image, *dst, stream ? *stream : cv::gpu::Stream::Null());
-}
-void gpuFilterRelease(cv::gpu::Filter** filter)
-{
-   delete *filter;
-   *filter = 0;
+   cv::Mat kMat = cv::cvarrToMat(kernel);
+   cv::gpu::filter2D(*src, *dst, src->depth(), kMat, anchor, borderType, stream ? *stream : cv::gpu::Stream::Null());
 }

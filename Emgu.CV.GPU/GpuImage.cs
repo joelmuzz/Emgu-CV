@@ -143,7 +143,7 @@ namespace Emgu.CV.GPU
             #region same color
             if (typeof(TDepth) == typeof(TSrcDepth)) //same depth
             {
-               GpuInvoke.Copy(srcImage.Ptr, Ptr, IntPtr.Zero, IntPtr.Zero);
+               GpuInvoke.Copy(srcImage.Ptr, Ptr, IntPtr.Zero);
             } else //different depth
             {
                if (typeof(TDepth) == typeof(Byte) && typeof(TSrcDepth) != typeof(Byte))
@@ -165,10 +165,10 @@ namespace Emgu.CV.GPU
                      shift = (scale == 0) ? min : -min * scale;
                   }
 
-                  GpuInvoke.ConvertTo(srcImage.Ptr, Ptr, scale, shift, IntPtr.Zero);
+                  GpuInvoke.ConvertTo(srcImage.Ptr, Ptr, scale, shift);
                } else
                {
-                  GpuInvoke.ConvertTo(srcImage.Ptr, Ptr, 1.0, 0.0, IntPtr.Zero);
+                  GpuInvoke.ConvertTo(srcImage.Ptr, Ptr, 1.0, 0.0);
                }
 
             }
@@ -224,10 +224,10 @@ namespace Emgu.CV.GPU
       /// </summary>
       /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
       /// <returns>A clone of this GpuImage</returns>
-      public GpuImage<TColor, TDepth> Clone(Stream stream)
+      public GpuImage<TColor, TDepth> Clone()
       {
          GpuImage<TColor, TDepth> result = new GpuImage<TColor, TDepth>(Size);
-         GpuInvoke.Copy(_ptr, result, IntPtr.Zero, stream);
+         GpuInvoke.Copy(_ptr, result, IntPtr.Zero);
          return result;
       }
 
@@ -235,12 +235,11 @@ namespace Emgu.CV.GPU
       ///Split current Image into an array of gray scale images where each element 
       ///in the array represent a single color channel of the original image
       ///</summary>
-      /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
       ///<returns> 
       ///An array of gray scale images where each element  
       ///in the array represent a single color channel of the original image 
       ///</returns>
-      public new GpuImage<Gray, TDepth>[] Split(Stream stream)
+      public new GpuImage<Gray, TDepth>[] Split()
       {
          GpuImage<Gray, TDepth>[] result = new GpuImage<Gray, TDepth>[NumberOfChannels];
          Size size = Size;
@@ -249,7 +248,7 @@ namespace Emgu.CV.GPU
             result[i] = new GpuImage<Gray, TDepth>(size);
          }
 
-         SplitInto(result, stream);
+         SplitInto(result);
          return result;
       }
 
@@ -267,20 +266,10 @@ namespace Emgu.CV.GPU
          return result;
       }
 
-      ///<summary> 
-      ///Performs a convolution using the specific <paramref name="kernel"/> 
-      ///</summary>
-      ///<param name="kernel">The convolution kernel</param>
-      /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
-      ///<returns>The result of the convolution</returns>
-      public GpuImage<TColor, TDepth> Convolution(ConvolutionKernelF kernel, Stream stream)
+      public GpuImage<TColor, Single> Convolution(ConvolutionKernelF kernel, Stream stream)
       {
-         GpuImage<TColor, TDepth> result = new GpuImage<TColor, TDepth>(Size);
-         using (GpuLinearFilter<TColor, TDepth> linearFilter = new GpuLinearFilter<TColor, TDepth>(kernel, kernel.Center, CvEnum.BORDER_TYPE.REFLECT101, new MCvScalar()))
-         {
-            linearFilter.Apply(this, result, stream);
-         }
-         
+         GpuImage<TColor, Single> result = new GpuImage<TColor, float>(Size);
+         GpuInvoke.Filter2D(_ptr, result, kernel, kernel.Center, CvEnum.BORDER_TYPE.REFLECT101, stream);
          return result;
       }
 
@@ -380,7 +369,7 @@ namespace Emgu.CV.GPU
 
       IImage[] IImage.Split()
       {
-         return Split(null);
+         return Split();
       }
 
       /// <summary>
@@ -401,7 +390,7 @@ namespace Emgu.CV.GPU
 
       object ICloneable.Clone()
       {
-         return Clone(null);
+         return Clone();
       }
 
       #endregion

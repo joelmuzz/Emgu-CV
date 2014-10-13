@@ -56,13 +56,11 @@
     </Compile>
     <Compile Include="GpuBroxOpticalFlow.cs" />
     <Compile Include="GpuBruteForceMatcher.cs" />
-    <Compile Include="GpuCannyEdgeDetector.cs" />
     <Compile Include="GpuCascadeClassifier.cs" />
     <Compile Include="GpuDeviceInfo.cs" />
     <Compile Include="GpuDisparityBilateralFilter.cs" />
     <Compile Include="GpuFarnebackOpticalFlow.cs" />
     <Compile Include="GpuFASTDetector.cs" />
-    <Compile Include="GpuFilter.cs" />
     <Compile Include="GpuGoodFeaturesToTrackDetector.cs" />
     <Compile Include="GpuHOGDescriptor.cs" />
     <Compile Include="GpuImage.cs" />

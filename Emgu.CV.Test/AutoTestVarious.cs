@@ -2404,6 +2404,7 @@ namespace Emgu.CV.Test
          }
       }
 
+      /*
       [Test]
       public void TestERFilter()
       {
@@ -2423,6 +2424,6 @@ namespace Emgu.CV.Test
                }
             }
          }
-      }
+      }*/
    }
 }

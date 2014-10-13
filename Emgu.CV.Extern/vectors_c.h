@@ -12,7 +12,7 @@
 #include "opencv2/core/core_c.h"
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/objdetect/objdetect.hpp"
-#include "opencv2/objdetect/objdetect_c.h"
+//#include "opencv2/objdetect/objdetect_c.h"
 
 template <class dataType> 
 void VectorPushMulti(std::vector<dataType>* v, dataType* values, int count)

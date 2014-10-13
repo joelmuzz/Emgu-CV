@@ -81,7 +81,7 @@ namespace Emgu.CV
       /// <summary>
       /// The file name of the gpu library
       /// </summary>
-      public const string OPENCV_GPU_LIBRARY = ""; 
+      public const string OPENCV_GPU_LIBRARY = "opencv_gpu"; 
       /// <summary>
       /// The file name of the gpufilters library
       /// </summary>
@@ -117,11 +117,11 @@ namespace Emgu.CV
       /// <summary>
       /// The file name of the bioinspired library
       /// </summary>
-      public const string OPENCV_BIOINSPIRED_LIBRARY = "opencv_bioinspired"; 
+      public const string OPENCV_BIOINSPIRED_LIBRARY = ""; 
       /// <summary>
       /// The file name of the superres library
       /// </summary>
-      public const string OPENCV_SUPERRES_LIBRARY = ""; 
+      public const string OPENCV_SUPERRES_LIBRARY = "opencv_superres"; 
       /// <summary>
       /// The file name of the nonfree library
       /// </summary>
@@ -137,11 +137,11 @@ namespace Emgu.CV
       /// <summary>
       /// The file name of the optim library
       /// </summary>
-      public const string OPENCV_OPTIM_LIBRARY = "opencv_optim"; 
+      public const string OPENCV_OPTIM_LIBRARY = ""; 
       /// <summary>
       /// The file name of the softcascade library
       /// </summary>
-      public const string OPENCV_SOFTCASCADE_LIBRARY = "opencv_softcascade"; 
+      public const string OPENCV_SOFTCASCADE_LIBRARY = ""; 
       /// <summary>
       /// The file name of the cudev library
       /// </summary>
@@ -168,13 +168,12 @@ namespace Emgu.CV
 	     OPENCV_CALIB3D_LIBRARY,
 	     OPENCV_LEGACY_LIBRARY,
 	     OPENCV_CONTRIB_LIBRARY,
+	     OPENCV_GPU_LIBRARY,
 	     OPENCV_PHOTO_LIBRARY,
-	     OPENCV_BIOINSPIRED_LIBRARY,
+	     OPENCV_SUPERRES_LIBRARY,
 	     OPENCV_NONFREE_LIBRARY,
 	     OPENCV_STITCHING_LIBRARY,
 	     OPENCV_VIDEOSTAB_LIBRARY,
-	     OPENCV_OPTIM_LIBRARY,
-	     OPENCV_SOFTCASCADE_LIBRARY,
          EXTERN_LIBRARY
       };
 

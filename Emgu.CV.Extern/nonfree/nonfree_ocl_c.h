@@ -1,3 +1,4 @@
+/*
 //----------------------------------------------------------------------------
 //
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.
@@ -45,3 +46,4 @@ CVAPI(void) oclSURFDetectorCompute(
 
 CVAPI(int) oclSURFDetectorGetDescriptorSize(cv::ocl::SURF_OCL* detector);
 #endif
+*/

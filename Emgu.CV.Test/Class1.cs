@@ -48,7 +48,7 @@ namespace Emgu.CV.Test
 
       public void TestKinect()
       {
-         using (KinectCapture capture = new KinectCapture(KinectCapture.ImageGeneratorOutputMode.VGA_30HZ))
+         using (KinectCapture capture = new KinectCapture(KinectCapture.DeviceType.Kinect, KinectCapture.ImageGeneratorOutputMode.VGA_30HZ))
          {
             ImageViewer viewer = new ImageViewer();
             Application.Idle += delegate(Object sender, EventArgs e)
@@ -515,7 +515,7 @@ namespace Emgu.CV.Test
       {
          ImageViewer viewer = new ImageViewer();
          using (Capture capture = new Capture("tree.avi"))
-         using (GaussianMotionFilter motionFilter = new GaussianMotionFilter(15, -1.0f))
+         using (GaussianMotionFilter motionFilter = new GaussianMotionFilter())
          //using (Features2D.FastDetector detector = new Features2D.FastDetector(10, true))
          //using (Features2D.SURFDetector detector = new Features2D.SURFDetector(500, false))
          //using (Features2D.ORBDetector detector = new Features2D.ORBDetector(500))
@@ -1015,7 +1015,7 @@ namespace Emgu.CV.Test
                      out shiftedFeatures, out status, out trackErrors);
                   */
 
-                  GpuImage<Gray, Byte> displayImage = currentImage.Clone(null);
+                  GpuImage<Gray, Byte> displayImage = currentImage.Clone();
                   /*
                   for (int i = 0; i < features.Length; i++)
                      displayImage.Draw(new LineSegment2DF(features[i], shiftedFeatures[i]), new Gray(), 2);

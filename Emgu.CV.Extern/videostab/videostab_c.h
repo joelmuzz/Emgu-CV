@@ -48,7 +48,7 @@ CVAPI(void) OnePassStabilizerRelease(cv::videostab::OnePassStabilizer** stabiliz
 CVAPI(cv::videostab::TwoPassStabilizer*) TwoPassStabilizerCreate(cv::videostab::IFrameSource* baseFrameSource, cv::videostab::StabilizerBase** stabilizerBase, cv::videostab::IFrameSource** frameSource);
 CVAPI(void) TwoPassStabilizerRelease(cv::videostab::TwoPassStabilizer** stabilizer);
 
-CVAPI(cv::videostab::GaussianMotionFilter*) GaussianMotionFilterCreate(int radius, float stdev);
+CVAPI(cv::videostab::GaussianMotionFilter*) GaussianMotionFilterCreate();
 CVAPI(void) GaussianMotionFilterRelease(cv::videostab::GaussianMotionFilter** filter);
 
 #endif

@@ -17,9 +17,10 @@ cv::StereoSGBM* CvStereoSGBMCreate(
   int speckleWindowSize, int speckleRange,
   int mode)
 {
-   cv::Ptr<cv::StereoSGBM> ptr =  cv::createStereoSGBM(minDisparity, numDisparities, blockSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, mode);
-   ptr.addref();
-   return ptr.obj;
+   //cv::Ptr<cv::StereoSGBM> ptr =  cv::createStereoSGBM(minDisparity, numDisparities, blockSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, mode);
+   //ptr.addref();
+   //return ptr.obj;
+   return new cv::StereoSGBM(minDisparity, numDisparities, blockSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, mode);
 }
 void CvStereoSGBMRelease(cv::StereoSGBM* obj) { delete obj;}
 void CvStereoSGBMFindCorrespondence(cv::StereoSGBM* disparitySolver, IplImage* left, IplImage* right, IplImage* disparity)
@@ -27,7 +28,8 @@ void CvStereoSGBMFindCorrespondence(cv::StereoSGBM* disparitySolver, IplImage* l
    cv::Mat leftMat = cv::cvarrToMat(left);
    cv::Mat rightMat = cv::cvarrToMat(right);
    cv::Mat dispMat = cv::cvarrToMat(disparity);
-   disparitySolver->compute(leftMat, rightMat, dispMat);
+   //disparitySolver->compute(leftMat, rightMat, dispMat);
+   (*disparitySolver)(leftMat, rightMat, dispMat);
 }
 
 //2D tracker

@@ -36,7 +36,7 @@ namespace emgu
       int CvSeq;
       int CvContour;
       int IplImage;
-      int ERStat;
+      //int ERStat;
    };
 }
 

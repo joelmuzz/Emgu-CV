@@ -9,10 +9,10 @@
 //BackgroundSubtractorMOG2
 cv::BackgroundSubtractorMOG2* CvBackgroundSubtractorMOG2Create(int history,  float varThreshold, bool bShadowDetection)
 {
-   cv::Ptr<cv::BackgroundSubtractorMOG2> ptr =  cv::createBackgroundSubtractorMOG2(history, varThreshold, bShadowDetection);
-   ptr.addref();
-   return ptr.obj;
-   //return new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection);
+   //cv::Ptr<cv::BackgroundSubtractorMOG2> ptr = new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection);
+   //ptr.addref();
+   //return ptr.obj;
+   return new cv::BackgroundSubtractorMOG2(history, varThreshold, bShadowDetection);
 }
 
 void CvBackgroundSubtractorMOG2Release(cv::BackgroundSubtractorMOG2** bgSubstractor)
@@ -26,15 +26,16 @@ void CvBackgroundSubtractorUpdate(cv::BackgroundSubtractor* bgSubstractor, IplIm
 {
    cv::Mat imgMat = cv::cvarrToMat(image);
    cv::Mat fgMat = cv::cvarrToMat(fgmask);
-   bgSubstractor->apply(imgMat, fgMat, learningRate);
+   (*bgSubstractor)(imgMat, fgMat, learningRate);
 }
 
 //BackgroundSubtractorMOG
 cv::BackgroundSubtractorMOG* CvBackgroundSubtractorMOGCreate(int history, int nmixtures, double backgroundRatio, double noiseSigma)
 {
-   cv::Ptr<cv::BackgroundSubtractorMOG> ptr = cv::createBackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
-   ptr.addref();
-   return ptr.obj;
+   //cv::Ptr<cv::BackgroundSubtractorMOG> ptr = cv::createBackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
+   //ptr.addref();
+   //return ptr.obj;
+   return new cv::BackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
 }
 
 void CvBackgroundSubtractorMOGRelease(cv::BackgroundSubtractorMOG** bgSubstractor)

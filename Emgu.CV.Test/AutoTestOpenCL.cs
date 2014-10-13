@@ -1,4 +1,5 @@
-﻿//----------------------------------------------------------------------------
+﻿/*
+//----------------------------------------------------------------------------
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.       
 //----------------------------------------------------------------------------
 ﻿using System;
@@ -319,13 +320,7 @@ namespace Emgu.CV.Test
 
                Stopwatch watch = Stopwatch.StartNew();
                Rectangle[] rects;
-               /*
-               //using (OclImage<Bgr, Byte> gpuImage = new OclImage<Bgr, byte>(image))
-               //using (OclImage<Bgra, Byte> gpuBgra = gpuImage.Convert<Bgra, Byte>())
-               using (Image<Bgra, Byte> imgBgra = image.Convert<Bgra, Byte>())
-               using (OclImage<Bgra, Byte> gpuBgra = new OclImage<Bgra,byte>(imgBgra))
-                  rects = hog.DetectMultiScale(gpuBgra);
-               */
+
                using (OclImage<Bgr, Byte> gpuImage = new OclImage<Bgr, byte>(image))
                using (OclImage<Gray, Byte> gpuGray = gpuImage.Convert<Gray, Byte>())
                {
@@ -660,3 +655,4 @@ namespace Emgu.CV.Test
       }
    }
 }
+*/

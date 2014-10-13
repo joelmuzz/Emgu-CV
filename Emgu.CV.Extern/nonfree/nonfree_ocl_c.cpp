@@ -1,3 +1,4 @@
+/*
 //----------------------------------------------------------------------------
 //
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.
@@ -52,3 +53,4 @@ int oclSURFDetectorGetDescriptorSize(cv::ocl::SURF_OCL* detector)
 {
    return detector->descriptorSize();
 }
+*/

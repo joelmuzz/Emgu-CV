@@ -213,15 +213,15 @@ namespace Emgu.CV.GPU
       ///An array of single channel GpuMat where each item
       ///in the array represent a single channel of the original GpuMat 
       ///</param>
-      /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
-      public void SplitInto(GpuMat<TDepth>[] gpuMats, Stream stream)
+
+      public void SplitInto(GpuMat<TDepth>[] gpuMats)
       {
          Debug.Assert(NumberOfChannels == gpuMats.Length, "Number of channels does not agrees with the length of gpuMats");
          
          if (NumberOfChannels == 1)
          {
             //If single channel, return a copy
-            GpuInvoke.Copy(_ptr, gpuMats[0], IntPtr.Zero, stream);
+            GpuInvoke.Copy(_ptr, gpuMats[0], IntPtr.Zero);
          }
          else
          {
@@ -234,7 +234,7 @@ namespace Emgu.CV.GPU
                ptrs[i] = gpuMats[i].Ptr;
             }
             GCHandle handle = GCHandle.Alloc(ptrs, GCHandleType.Pinned);
-            GpuInvoke.Split(_ptr, handle.AddrOfPinnedObject(), stream);
+            GpuInvoke.Split(_ptr, handle.AddrOfPinnedObject(), IntPtr.Zero);
             handle.Free();
          }
       }
@@ -246,14 +246,13 @@ namespace Emgu.CV.GPU
       ///An array of single channel GpuMat where each item
       ///in the array represent a single channel of the GpuMat 
       ///</param>
-      /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
-      public void MergeFrom(GpuMat<TDepth>[] gpuMats, Stream stream)
+      public void MergeFrom(GpuMat<TDepth>[] gpuMats)
       {
          Debug.Assert(NumberOfChannels == gpuMats.Length, "Number of channels does not agrees with the length of gpuMats");
          //If single channel, perform a copy
          if (NumberOfChannels == 1)
          {
-            GpuInvoke.Copy(gpuMats[0].Ptr, _ptr, IntPtr.Zero, stream);
+            GpuInvoke.Copy(gpuMats[0].Ptr, _ptr, IntPtr.Zero);
          }
 
          //handle multiple channels
@@ -265,7 +264,7 @@ namespace Emgu.CV.GPU
             ptrs[i] = gpuMats[i].Ptr;
          }
          GCHandle handle = GCHandle.Alloc(ptrs, GCHandleType.Pinned);
-         GpuInvoke.Merge(handle.AddrOfPinnedObject(), _ptr, stream);
+         GpuInvoke.Merge(handle.AddrOfPinnedObject(), _ptr, IntPtr.Zero);
          handle.Free();
       }
 
@@ -273,12 +272,11 @@ namespace Emgu.CV.GPU
       ///Split current GpuMat into an array of single channel GpuMat where each element 
       ///in the array represent a single channel of the original GpuMat
       ///</summary>
-      /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
       ///<returns> 
       ///An array of single channel GpuMat where each element  
       ///in the array represent a single channel of the original GpuMat 
       ///</returns>
-      public GpuMat<TDepth>[] Split(Stream stream)
+      public GpuMat<TDepth>[] Split()
       {
          GpuMat<TDepth>[] result = new GpuMat<TDepth>[NumberOfChannels];
          Size size = Size;
@@ -287,7 +285,7 @@ namespace Emgu.CV.GPU
             result[i] = new GpuMat<TDepth>(size, 1);
          }
 
-         SplitInto(result, stream);
+         SplitInto(result);
          return result;
       }
 
@@ -315,7 +313,7 @@ namespace Emgu.CV.GPU
          }
          else
          {
-            GpuMat<TDepth>[] channels = Split(null);
+            GpuMat<TDepth>[] channels = Split();
             try
             {
                for (int i = 0; i < NumberOfChannels; i++)
@@ -363,11 +361,11 @@ namespace Emgu.CV.GPU
       /// <typeparam name="TOtherDepth">The depth type to convert to</typeparam>
       /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
       /// <returns>GpuMat of different depth</returns>
-      public GpuMat<TOtherDepth> Convert<TOtherDepth>(Stream stream)
+      public GpuMat<TOtherDepth> Convert<TOtherDepth>()
          where TOtherDepth : new()
       {
          GpuMat<TOtherDepth> res = new GpuMat<TOtherDepth>(Size, NumberOfChannels);
-         GpuInvoke.ConvertTo(Ptr, res.Ptr, 1.0, 0.0, stream);
+         GpuInvoke.ConvertTo(Ptr, res.Ptr, 1.0, 0.0);
          return res;
       }
 
@@ -390,10 +388,9 @@ namespace Emgu.CV.GPU
       /// </summary>
       /// <param name="value">Fill value</param>
       /// <param name="mask">Operation mask, 8-bit single channel GpuMat; specifies elements of destination array to be changed. Can be null if not used.</param>
-      /// <param name="stream">Use a Stream to call the function asynchronously (non-blocking) or null to call the function synchronously (blocking).</param>
-      public void SetTo(MCvScalar value, GpuMat<Byte> mask, Stream stream)
+      public void SetTo(MCvScalar value, GpuMat<Byte> mask)
       {
-         GpuInvoke.GpuMatSetTo(_ptr, value, mask, stream);
+         GpuInvoke.GpuMatSetTo(_ptr, value, mask);
       }
 
       /// <summary>

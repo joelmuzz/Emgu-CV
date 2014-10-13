@@ -99,9 +99,9 @@ void TwoPassStabilizerRelease(cv::videostab::TwoPassStabilizer** stabilizer)
    *stabilizer = 0;
 }
 
-cv::videostab::GaussianMotionFilter* GaussianMotionFilterCreate(int radius, float stdev)
+cv::videostab::GaussianMotionFilter* GaussianMotionFilterCreate()
 {
-   return new cv::videostab::GaussianMotionFilter(radius, stdev);
+   return new cv::videostab::GaussianMotionFilter();
 }
 void GaussianMotionFilterRelease(cv::videostab::GaussianMotionFilter** filter)
 {

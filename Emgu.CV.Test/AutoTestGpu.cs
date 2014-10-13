@@ -56,14 +56,9 @@ namespace Emgu.CV.Test
             using (GpuImage<Bgr, Byte> img2 = new GpuImage<Bgr, Byte>(img1.Size))
             using (GpuImage<Gray, Byte> img3 = new GpuImage<Gray, byte>(img2.Size))
             using (Stream stream = new Stream())
-            using (GpuMat<float> mat1 = img1.Convert<float>(stream))
+            using (GpuMat<float> mat1 = img1.Convert<float>())
             {
-               while (!stream.Completed)
-               {
-                  if (counter <= int.MaxValue) counter++;
-               }
-               Trace.WriteLine(String.Format("Counter has been incremented {0} times", counter));
-
+               
                counter = 0;
                GpuInvoke.CvtColor(img2, img3, CvToolbox.GetColorCvtCode(typeof(Bgr), typeof(Gray)), stream);
                while (!stream.Completed)
@@ -146,7 +141,7 @@ namespace Emgu.CV.Test
 
                using (GpuImage<Bgr, Byte> gpuImg1 = new GpuImage<Bgr, byte>(img1))
                {
-                  GpuImage<Gray, Byte>[] channels = gpuImg1.Split(null);
+                  GpuImage<Gray, Byte>[] channels = gpuImg1.Split();
 
                   for (int i = 0; i < channels.Length; i++)
                   {
@@ -157,7 +152,7 @@ namespace Emgu.CV.Test
 
                   using (GpuImage<Bgr, Byte> gpuImg2 = new GpuImage<Bgr, byte>(channels[0].Size))
                   {
-                     gpuImg2.MergeFrom(channels, null);
+                     gpuImg2.MergeFrom(channels);
                      Assert.IsTrue(gpuImg2.ToImage().Equals(img1), "failed split and merge test");
                   }
 
@@ -204,17 +199,17 @@ namespace Emgu.CV.Test
             using (ConvolutionKernelF kernel = new ConvolutionKernelF(k))
             using (Stream s = new Stream())
             using (GpuImage<Gray, Byte> gpuImg1 = new GpuImage<Gray, byte>(image))
-            using (GpuImage<Gray, Byte> gpuLaplace = new GpuImage<Gray, Byte>(image.Size))
-            using (GpuImage<Gray, Byte> gpuConv = gpuImg1.Convolution(kernel, s))
-            using (GpuLaplacianFilter<Gray, Byte> laplacian = new GpuLaplacianFilter<Gray, byte>(1, 1.0, CvEnum.BORDER_TYPE.DEFAULT, new MCvScalar()))
+            using (GpuImage<Gray, Single> gpuLaplace = new GpuImage<Gray, Single>(image.Size))
+            using (GpuImage<Gray, Single> gpuConv = gpuImg1.Convolution(kernel, s))
             {
-               laplacian.Apply(gpuImg1, gpuLaplace, s);
+               GpuInvoke.Laplacian(gpuImg1, gpuLaplace, 1, 1.0, CvEnum.BORDER_TYPE.DEFAULT, s);
                s.WaitForCompletion();
                Assert.IsTrue(gpuLaplace.Equals(gpuConv));
             }
          }
       }
 
+      /*
       [Test]
       public void TestGpuFilters()
       {
@@ -232,7 +227,7 @@ namespace Emgu.CV.Test
 
             }
          }
-      }
+      }*/
 
       [Test]
       public void TestResizeGray()
@@ -264,7 +259,7 @@ namespace Emgu.CV.Test
             img.SetRandUniform(new MCvScalar(0.0), new MCvScalar(255.0));
 
             using (GpuImage<Gray, Byte> gImg1 = new GpuImage<Gray, byte>(img))
-            using (GpuImage<Gray, Byte> gImg2 = gImg1.Clone(null))
+            using (GpuImage<Gray, Byte> gImg2 = gImg1.Clone())
             using (Image<Gray, Byte> img2 = gImg2.ToImage())
             {
                Assert.IsTrue(img.Equals(img2));
@@ -340,10 +335,8 @@ namespace Emgu.CV.Test
             using (GpuImage<Bgr, Byte> gpuImage = new GpuImage<Bgr, byte>(image))
             using (GpuImage<Gray, Byte> gray = gpuImage.Convert<Gray, Byte>())
             using (GpuImage<Gray, Byte> canny = new GpuImage<Gray,byte>(gray.Size))
-            using (GpuCannyEdgeDetector detector = new GpuCannyEdgeDetector(20, 100, 3, false))
             {
-               detector.Detect(gray, canny);
-               //GpuInvoke.Canny(gray, canny, 20, 100, 3, false);
+               GpuInvoke.Canny(gray, canny, 20, 100, 3, false);
                //ImageViewer.Show(canny);
             }
          }
@@ -438,23 +431,19 @@ namespace Emgu.CV.Test
       {
          if (!GpuInvoke.HasCuda)
             return;
-         
+
          int morphIter = 2;
          Image<Gray, Byte> image = new Image<Gray, byte>(640, 320);
          image.Draw(new CircleF(new PointF(200, 200), 30), new Gray(255.0), 4);
 
-         Size ksize = new Size(morphIter * 2 + 1, morphIter * 2 + 1);
-
          using (GpuImage<Gray, Byte> gpuImage = new GpuImage<Gray, byte>(image))
-         using (GpuImage<Gray, Byte> gpuTemp = new GpuImage<Gray,byte>(gpuImage.Size))
-         //using (GpuImage<Gray, Byte> buffer = new GpuImage<Gray,byte>(gpuImage.Size))
+         using (GpuImage<Gray, Byte> gpuTemp = new GpuImage<Gray, byte>(gpuImage.Size))
+         using (GpuImage<Gray, Byte> buffer = new GpuImage<Gray, byte>(gpuImage.Size))
          using (Stream stream = new Stream())
-         using (GpuBoxMaxFilter<Gray> dilate = new GpuBoxMaxFilter<Gray>(ksize, new Point(-1, -1), CvEnum.BORDER_TYPE.DEFAULT, new MCvScalar()))
-         using (GpuBoxMinFilter<Gray> erode = new GpuBoxMinFilter<Gray>(ksize, new Point(-1, -1), CvEnum.BORDER_TYPE.DEFAULT, new MCvScalar()))
          {
             //run the GPU version asyncrhonously with stream
-            erode.Apply(gpuImage, gpuTemp, stream);
-            dilate.Apply(gpuTemp, gpuImage, stream);
+            GpuInvoke.Erode(gpuImage, gpuTemp, IntPtr.Zero, buffer, new Point(-1, -1), morphIter, stream);
+            GpuInvoke.Dilate(gpuTemp, gpuImage, IntPtr.Zero, buffer, new Point(-1, -1), morphIter, stream);
 
             //run the CPU version in parallel to the gpu version.
             using (Image<Gray, Byte> temp = new Image<Gray, byte>(image.Size))
@@ -468,7 +457,7 @@ namespace Emgu.CV.Test
 
             Assert.IsTrue(gpuImage.ToImage().Equals(image));
          }
-         
+
       }
 
       [Test]
@@ -673,6 +662,8 @@ namespace Emgu.CV.Test
       [Test]
       public void TestGpuPyrLKOpticalFlow()
       {
+         if (!GpuInvoke.HasCuda)
+            return;
          Image<Gray, Byte> prevImg, currImg;
          AutoTestVarious.OpticalFlowImage(out prevImg, out currImg);
          Image<Gray, Single> flowx = new Image<Gray, float>(prevImg.Size);
