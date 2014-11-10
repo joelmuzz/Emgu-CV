@@ -16,7 +16,7 @@
 #
 # copyright (c) 2007 Arno Rehn arno@arnorehn.de
 # copyright (c) 2008 Helio castro helio@kde.org
-# copyright (c) 2009 - 2012 Canming Huang support@emgu.com
+# copyright (c) 2009 - 2014 Canming Huang support@emgu.com
 #
 # Redistribution and use is allowed according to the terms of the GPL license.
 
@@ -95,7 +95,48 @@ MACRO(ADD_CS_REFERENCES references)
   FOREACH(ref ${references})
     LIST(APPEND CS_FLAGS -r:\"${ref}\")
   ENDFOREACH(ref)
-ENDMACRO(ADD_CS_REFERENCES references)
+ENDMACRO(ADD_CS_REFERENCES)
+
+MACRO(ADD_CS_FRAMEWORK_REFERENCES ver refs)
+  #MESSAGE(STATUS "ADD_CS_FRAMEWORK_REFERENCES ver: ${ver}; refs: ${refs}")	
+  SET(CSC_MSCORLIB_FOLDER "")
+  IF("${ver}" STREQUAL "3.5")
+    GET_FILENAME_COMPONENT(CSC_MSCORLIB_FOLDER ${CSC_MSCORLIB_35} DIRECTORY)
+	SET(CSC_MSCORLIB_FOLDER "${CSC_MSCORLIB_FOLDER}/")
+  ENDIF() 
+  
+  FOREACH(ref ${refs})
+    #MESSAGE(STATUS "Adding ${ref} from ${refs}")
+    LIST(APPEND CS_FLAGS -r:\"${CSC_MSCORLIB_FOLDER}${ref}\")
+  ENDFOREACH()
+ENDMACRO()
+
+MACRO(SET_CS_TARGET_FRAMEWORK)
+  SET(EXTRA_MACRO_ARGS ${ARGN})
+  #MESSAGE(STATUS "SET_CS_TARGET_FRAMEWORK ${EXTRA_MACRO_ARGS}")
+  #did we get the version string?
+  list(LENGTH EXTRA_MACRO_ARGS NUM_EXTRA_ARGS)
+  #MESSAGE(STATUS "Extra parameters: ${NUM_EXTRA_ARGS}")
+  IF (${NUM_EXTRA_ARGS} GREATER 0)
+    #MESSAGE(STATUS "GREATER than 0")
+    LIST(GET EXTRA_MACRO_ARGS 0 version)
+	#MESSAGE(STATUS "VERSION: ${version}")
+  ELSE()
+    SET(version "")
+  ENDIF()
+  
+  IF("${version}" STREQUAL "3.5")
+	LIST(APPEND CS_COMMANDLINE_FLAGS -noconfig )
+	LIST(APPEND CS_FLAGS -nostdlib)
+	LIST(APPEND FRAMEWORK_REFERENCES mscorlib.dll System.dll ${FRAMEWORK_REFERENCES})
+  ENDIF()
+  
+  IF(NOT NETFX_CORE)
+    LIST(APPEND FRAMEWORK_REFERENCES  System.Core.dll System.Xml.dll System.Drawing.dll System.Data.dll System.ServiceModel.dll System.Xml.Linq.dll)
+  ENDIF()
+  #MESSAGE(STATUS "FRAMEWORK reference: ver: ${version}; ref: ${FRAMEWORK_REFERENCES}")
+  ADD_CS_FRAMEWORK_REFERENCES("${version}" "${FRAMEWORK_REFERENCES}")
+ENDMACRO(SET_CS_TARGET_FRAMEWORK)
 
 MACRO(COMPILE_CS target target_type source)
 IF(${target_type} STREQUAL "library")
@@ -226,13 +267,12 @@ ENDIF(${target_type} STREQUAL "library")
 	FOREACH(TMP_NAME ${proper_file_list})
 	  SET(TMP "${TMP} \"${TMP_NAME}\"")
 	ENDFOREACH()
-	FILE(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/cscSourceList.rsp  ${TMP})
+	FILE(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/${target}_SourceList.rsp  ${TMP})
 	
-    	
     ADD_CUSTOM_COMMAND (
       TARGET ${target}
       ${CS_PREBUILD_COMMAND}	   
-      COMMAND ${CSC_EXECUTABLE} ${NETFX_EXTRA_FLAGS} @cscSourceList.rsp
+      COMMAND ${CSC_EXECUTABLE} ${CS_COMMANDLINE_FLAGS} ${NETFX_EXTRA_FLAGS} @${target}_SourceList.rsp
 	  ${CS_POSTBUILD_COMMAND}
       DEPENDS ${source}
       COMMENT "Building ${relative_path}")
@@ -240,6 +280,7 @@ ENDIF(${target_type} STREQUAL "library")
     SET(relative_path "")
     SET(proper_file_list "")
     SET(CS_FLAGS "")
+	SET(CS_COMMANDLINE_FLAGS "")
     SET(CS_PREBUILD_COMMAND "")
 	SET(CS_POSTBUILD_COMMAND "")
 ENDMACRO(COMPILE_CS)

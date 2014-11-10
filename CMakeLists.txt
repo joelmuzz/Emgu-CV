@@ -828,6 +828,7 @@ ELSE()
     PATTERN "obj" EXCLUDE
     PATTERN "CMake*" EXCLUDE
     PATTERN "Release" EXCLUDE
+	PATTERN "RelWithDebInfo" EXCLUDE
     PATTERN "Debug" EXCLUDE
     PATTERN "*.dir" EXCLUDE
     PATTERN "Android" EXCLUDE
