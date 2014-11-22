@@ -1,4 +1,5 @@
-﻿//----------------------------------------------------------------------------
+﻿#if !IOS
+//----------------------------------------------------------------------------
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.       
 //----------------------------------------------------------------------------
 
@@ -295,3 +296,4 @@ namespace Emgu.CV
       internal static extern void CvRetinaSetParameters(IntPtr retina, ref Retina.RetinaParameters parameters);
    }
 }
+#endif

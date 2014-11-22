@@ -15,10 +15,14 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Emgu.CV;
 using Emgu.CV.Features2D;
+#if !IOS
 using Emgu.CV.GPU;
+#endif
 using Emgu.CV.Stitching;
 using Emgu.CV.Structure;
+#if !IOS
 using Emgu.CV.Tiff;
+#endif
 using Emgu.CV.Util;
 using Emgu.CV.VideoSurveillance;
 using Emgu.Util;
