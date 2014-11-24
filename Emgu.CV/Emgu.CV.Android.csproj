@@ -267,6 +267,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Emgu.CV.snk" />
+    <EmbeddedNativeLibrary Include="..\libs\x86\libopencv_gpu.so">
+      <Link>lib\x86\libopencv_gpu.so</Link>
+    </EmbeddedNativeLibrary>
+    <EmbeddedNativeLibrary Include="..\libs\armeabi-v7a\libopencv_gpu.so">
+      <Link>lib\armeabi-v7a\libopencv_gpu.so</Link>
+    </EmbeddedNativeLibrary>
+    <EmbeddedNativeLibrary Include="..\libs\armeabi\libopencv_gpu.so">
+      <Link>lib\armeabi\libopencv_gpu.so</Link>
+    </EmbeddedNativeLibrary>
+    <EmbeddedNativeLibrary Include="..\libs\armeabi\libopencv_superres.so">
+      <Link>lib\armeabi\libopencv_superres.so</Link>
+    </EmbeddedNativeLibrary>
+    <EmbeddedNativeLibrary Include="..\libs\armeabi-v7a\libopencv_superres.so">
+      <Link>lib\armeabi-v7a\libopencv_superres.so</Link>
+    </EmbeddedNativeLibrary>
+    <EmbeddedNativeLibrary Include="..\libs\x86\libopencv_superres.so">
+      <Link>lib\x86\libopencv_superres.so</Link>
+    </EmbeddedNativeLibrary>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedNativeLibrary Include="..\libs\armeabi\libcvextern.so">
@@ -412,15 +430,6 @@
     </EmbeddedNativeLibrary>
     <EmbeddedNativeLibrary Include="..\libs\x86\libopencv_videostab.so">
       <Link>lib\x86\libopencv_videostab.so</Link>
-    </EmbeddedNativeLibrary>
-    <EmbeddedNativeLibrary Include="..\libs\armeabi\libopencv_softcascade.so">
-      <Link>lib\armeabi\libopencv_softcascade.so</Link>
-    </EmbeddedNativeLibrary>
-    <EmbeddedNativeLibrary Include="..\libs\armeabi-v7a\libopencv_softcascade.so">
-      <Link>lib\armeabi-v7a\libopencv_softcascade.so</Link>
-    </EmbeddedNativeLibrary>
-    <EmbeddedNativeLibrary Include="..\libs\x86\libopencv_softcascade.so">
-      <Link>lib\x86\libopencv_softcascade.so</Link>
     </EmbeddedNativeLibrary>
   </ItemGroup>
   <ItemGroup>

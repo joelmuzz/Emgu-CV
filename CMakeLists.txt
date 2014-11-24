@@ -217,9 +217,10 @@ SET(CMAKE_SOURCE_DIR ${CMAKE_OLD_SOURCE_DIR})
 
 SET (OPENCV_MODULE_NAME_CANDIDATES
   core imgproc video flann ml highgui objdetect features2d calib3d
-  legacy contrib 
+  legacy  
   gpulegacy gpuarithm gpuwarping gpu gpufilters gpuimgproc gpuoptflow 
   gpustereo gpubgsegm gpufeatures2d 
+  contrib
   ocl
   photo bioinspired superres nonfree stitching 
   videostab  optim softcascade

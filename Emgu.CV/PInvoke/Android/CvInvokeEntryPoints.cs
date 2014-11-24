@@ -63,10 +63,6 @@ namespace Emgu.CV
       /// </summary>
       public const string OPENCV_LEGACY_LIBRARY = "opencv_legacy"; 
       /// <summary>
-      /// The file name of the contrib library
-      /// </summary>
-      public const string OPENCV_CONTRIB_LIBRARY = "opencv_contrib"; 
-      /// <summary>
       /// The file name of the gpulegacy library
       /// </summary>
       public const string OPENCV_GPULEGACY_LIBRARY = ""; 
@@ -106,6 +102,10 @@ namespace Emgu.CV
       /// The file name of the gpufeatures2d library
       /// </summary>
       public const string OPENCV_GPUFEATURES2D_LIBRARY = ""; 
+      /// <summary>
+      /// The file name of the contrib library
+      /// </summary>
+      public const string OPENCV_CONTRIB_LIBRARY = "opencv_contrib"; 
       /// <summary>
       /// The file name of the ocl library
       /// </summary>
@@ -167,8 +167,8 @@ namespace Emgu.CV
 	     OPENCV_FEATURES2D_LIBRARY,
 	     OPENCV_CALIB3D_LIBRARY,
 	     OPENCV_LEGACY_LIBRARY,
-	     OPENCV_CONTRIB_LIBRARY,
 	     OPENCV_GPU_LIBRARY,
+	     OPENCV_CONTRIB_LIBRARY,
 	     OPENCV_PHOTO_LIBRARY,
 	     OPENCV_SUPERRES_LIBRARY,
 	     OPENCV_NONFREE_LIBRARY,
