@@ -4,13 +4,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using CoreGraphics;
 using System.Drawing;
 using System.Linq;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using MonoTouch.Dialog;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using TrafficSignRecognition;
 
 namespace Emgu.CV.Example.MonoTouch
@@ -42,10 +43,10 @@ namespace Emgu.CV.Example.MonoTouch
                watch.Stop(); //stop the timer
                foreach (Rectangle rect in stopSignBoxList)
                {
-                  image.Draw(rect, new Bgr(Color.Red), 2);
+                  image.Draw(rect, new Bgr(0,0,255), 2);
                }
-               Size frameSize = FrameSize;
-               using (Image<Bgr, byte> resized = image.Resize(frameSize.Width, frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
+               CGSize frameSize = FrameSize;
+               using (Image<Bgr, byte> resized = image.Resize( (int)frameSize.Width, (int)frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
                {
                   MessageText = String.Format("Detection time: {0} milli-seconds", watch.Elapsed.TotalMilliseconds);
                   SetImage(resized);

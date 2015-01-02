@@ -4,14 +4,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using System.Text;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using MonoTouch.Dialog;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using LicensePlateRecognition;
 
 namespace Emgu.CV.Example.MonoTouch
@@ -24,7 +24,7 @@ namespace Emgu.CV.Example.MonoTouch
 
       }
 
-      public Size FrameSize
+      public CGSize FrameSize
       {
          get
          {
@@ -34,7 +34,7 @@ namespace Emgu.CV.Example.MonoTouch
                width = (int)View.Frame.Width;
                height = (int)View.Frame.Height;
             });
-            return new Size(width, height);
+            return new CGSize(width, height);
          }
       }
 
@@ -76,13 +76,13 @@ namespace Emgu.CV.Example.MonoTouch
                licenseElement.GetImmediateRootElement().Reload(licenseElement, UITableViewRowAnimation.Automatic);
                foreach (MCvBox2D box in licenseBoxList)
                {
-                  image.Draw(box, new Bgr(Color.Red), 2);
+                  image.Draw(box, new Bgr(0,0,255), 2);
                }
-                  Size frameSize = FrameSize;
-                  using (Image<Bgr, byte> resized = image.Resize( frameSize.Width, frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
+               CGSize frameSize = FrameSize;
+               using (Image<Bgr, byte> resized = image.Resize( (int) frameSize.Width, (int) frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
                   {
                      imageView.Image = resized.ToUIImage();
-                     imageView.Frame = new RectangleF(PointF.Empty, resized.Size);
+                     imageView.Frame = new CGRect(CGPoint.Empty, resized.Size);
                   }
                imageView.SetNeedsDisplay();
                   ReloadData();

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using System.Drawing;
+using Foundation;
+using UIKit;
 
 namespace Emgu.CV.Example.MonoTouch
 {

@@ -3,15 +3,15 @@
 //----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using MonoTouch.Dialog;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using SURFFeatureExample;
 
 namespace Emgu.CV.Example.MonoTouch
@@ -31,11 +31,11 @@ namespace Emgu.CV.Example.MonoTouch
             delegate
          {
             long processingTime;
-            Size frameSize = FrameSize;
+            CGSize frameSize = FrameSize;
             using (Image<Gray, byte> modelImage = new Image<Gray, byte>("box.png"))
             using (Image<Gray, byte> observedImage = new Image<Gray, byte>("box_in_scene.png"))
             using (Image<Bgr, Byte> image = DrawMatches.Draw(modelImage, observedImage, out processingTime))
-            using (Image<Bgr, Byte> resized =image.Resize(frameSize.Width, frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true))
+            using (Image<Bgr, Byte> resized =image.Resize((int)frameSize.Width, (int)frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true))
             {
                MessageText = String.Format("Matching Time: {0} milliseconds.", processingTime);
                SetImage(resized);

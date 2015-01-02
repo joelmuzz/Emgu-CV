@@ -3,13 +3,14 @@
 //----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using CoreGraphics;
 using System.Drawing;
 using System.Linq;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using MonoTouch.Dialog;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using PedestrianDetection;
 
 namespace Emgu.CV.Example.MonoTouch
@@ -36,10 +37,10 @@ namespace Emgu.CV.Example.MonoTouch
                );
                foreach (Rectangle rect in pedestrians)
                {
-                  image.Draw(rect, new Bgr(Color.Red), 1);
+                  image.Draw(rect, new Bgr(0,0,255), 1);
                }
-               Size frameSize = FrameSize;
-               using (Image<Bgr, Byte> resized = image.Resize(frameSize.Width, frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true))
+               CGSize frameSize = FrameSize;
+               using (Image<Bgr, Byte> resized = image.Resize((int)frameSize.Width, (int)frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true))
                {
                   MessageText = String.Format(
                             "Detection Time: {0} milliseconds.",

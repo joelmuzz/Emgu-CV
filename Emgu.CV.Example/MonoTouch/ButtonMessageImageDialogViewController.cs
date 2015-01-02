@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +12,8 @@ using System.Threading;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using MonoTouch.Dialog;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace Emgu.CV.Example.MonoTouch
 {
@@ -58,7 +58,7 @@ namespace Emgu.CV.Example.MonoTouch
          root.Add(new Section() {_imageView});
       }
 
-      public Size FrameSize
+      public CGSize FrameSize
       {
          get
          {
@@ -68,7 +68,7 @@ namespace Emgu.CV.Example.MonoTouch
                width = (int)View.Frame.Width;
                height = (int)View.Frame.Height;
             });
-            return new Size(width, height);
+            return new CGSize(width, height);
          }
       }
         
@@ -105,8 +105,8 @@ namespace Emgu.CV.Example.MonoTouch
          {
             using (UIImage i = image.ToUIImage())
             {
-               _imageView.Frame = new RectangleF(
-            PointF.Empty,
+               _imageView.Frame = new CGRect(
+            CGPoint.Empty,
             i.Size
                );
                _imageView.Image = i;
@@ -137,7 +137,7 @@ namespace Emgu.CV.Example.MonoTouch
          {  
             _activityView = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
 
-            _activityView.Frame = new RectangleF(
+            _activityView.Frame = new CGRect(
                 (Bounds.Width / 2) - 15,
                 Bounds.Height - 50,
                 30,

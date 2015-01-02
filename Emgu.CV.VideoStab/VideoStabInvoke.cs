@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 //  Copyright (C) 2004-2013 by EMGU. All rights reserved.       
 //----------------------------------------------------------------------------
 
@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Emgu.CV;
+#if !IOS
 using Emgu.CV.GPU;
+#endif
 using Emgu.CV.Structure;
 
 namespace Emgu.CV.VideoStab
@@ -15,8 +17,10 @@ namespace Emgu.CV.VideoStab
    {
       static VideoStabInvoke()
       {
+#if !IOS
          //Dummy code to make sure the static constructor of GpuInvoke has been called
          bool hasCuda = GpuInvoke.HasCuda;
+#endif
       }
 
       [DllImport(CvInvoke.EXTERN_GPU_LIBRARY, CallingConvention = CvInvoke.CvCallingConvention)]

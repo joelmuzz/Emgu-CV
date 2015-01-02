@@ -4,14 +4,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using MonoTouch.Dialog;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using FaceDetection;
 
 namespace Emgu.CV.Example.MonoTouch
@@ -47,8 +48,8 @@ namespace Emgu.CV.Example.MonoTouch
                   image.Draw(face, new Bgr(Color.Red), 1);
                foreach (Rectangle eye in eyes)
                   image.Draw(eye, new Bgr(Color.Blue), 1);
-               Size frameSize = FrameSize;
-               using (Image<Bgr, Byte> resized =image.Resize(frameSize.Width, frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true))
+               CGSize frameSize = FrameSize;
+               using (Image<Bgr, Byte> resized =image.Resize((int)frameSize.Width, (int)frameSize.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true))
                {
                   SetImage(resized);
                }

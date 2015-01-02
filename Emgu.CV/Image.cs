@@ -10,7 +10,7 @@ using System.Drawing;
 #if ANDROID
 using Bitmap = Android.Graphics.Bitmap;
 #elif IOS
-using MonoTouch.UIKit;
+using UIKit;
 #elif NETFX_CORE
 #else
 using System.Drawing.Imaging;
