@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emgu.Util.Windows.Store", "..\..\Emgu.Util\Emgu.Util.Windows.Store.csproj", "{991D295C-714D-4427-835B-E0314009AE5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emgu.CV.Windows.Store", "..\..\Emgu.CV\Emgu.CV.Windows.Store.csproj", "{1F7091DA-C6EB-417B-8D2F-58C6151377A0}"
@@ -12,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emgu.CV.Stitching.Windows.Store", "..\..\Emgu.CV.Stitching\Emgu.CV.Stitching.Windows.Store.csproj", "{67658000-1E4B-4417-A982-54A374E9D94B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emgu.CV.VideoStab.Windows.Store", "..\..\Emgu.CV.VideoStab\Emgu.CV.VideoStab.Windows.Store.csproj", "{5EAF5DE0-B0DB-40DF-B136-892299044003}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emgu.CV.OpenCL.Windows.Store", "..\..\Emgu.CV.OpenCL\Emgu.CV.OpenCL.Windows.Store.csproj", "{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emgu.CV.GPU.Windows.Store", "..\..\Emgu.CV.GPU\Emgu.CV.GPU.Windows.Store.csproj", "{C2293433-3C88-473C-AE81-BBBE5D5E1746}"
 EndProject
@@ -133,22 +133,6 @@ Global
 		{5EAF5DE0-B0DB-40DF-B136-892299044003}.Release|x64.Build.0 = Release|x64
 		{5EAF5DE0-B0DB-40DF-B136-892299044003}.Release|x86.ActiveCfg = Release|x86
 		{5EAF5DE0-B0DB-40DF-B136-892299044003}.Release|x86.Build.0 = Release|x86
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|ARM.ActiveCfg = Debug|ARM
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|ARM.Build.0 = Debug|ARM
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|x64.ActiveCfg = Debug|x64
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|x64.Build.0 = Debug|x64
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|x86.ActiveCfg = Debug|x86
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Debug|x86.Build.0 = Debug|x86
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|ARM.ActiveCfg = Release|ARM
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|ARM.Build.0 = Release|ARM
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|x64.ActiveCfg = Release|x64
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|x64.Build.0 = Release|x64
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|x86.ActiveCfg = Release|x86
-		{6E1EE7FA-B1E7-4BBF-AD6A-470C5FBF0F56}.Release|x86.Build.0 = Release|x86
 		{C2293433-3C88-473C-AE81-BBBE5D5E1746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2293433-3C88-473C-AE81-BBBE5D5E1746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2293433-3C88-473C-AE81-BBBE5D5E1746}.Debug|ARM.ActiveCfg = Debug|ARM
