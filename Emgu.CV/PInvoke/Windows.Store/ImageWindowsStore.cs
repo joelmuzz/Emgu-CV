@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Windows.Media.Capture;
 using Windows.Storage.Streams;
@@ -24,6 +25,35 @@ namespace Emgu.CV
       where TColor : struct, IColor
       where TDepth : new()
    {
+      public Image(WriteableBitmap writeableBitmap)
+         : this(writeableBitmap.PixelWidth, writeableBitmap.PixelHeight)
+      {
+         byte[] data = new byte[writeableBitmap.PixelWidth * writeableBitmap.PixelHeight * 4];
+         writeableBitmap.PixelBuffer.CopyTo(data);
+
+         GCHandle dataHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
+         try
+         {
+            using (
+               Image<Bgra, Byte> image = new Image<Bgra, byte>(writeableBitmap.PixelWidth, writeableBitmap.PixelHeight, writeableBitmap.PixelWidth * 4,
+                  dataHandle.AddrOfPinnedObject()))
+            {
+               if (typeof(TColor) == typeof(Bgra) && typeof(TDepth) == typeof(byte))
+               {
+                  CvInvoke.cvCopy(image, this, IntPtr.Zero);
+               }
+               else
+               {
+                  this.ConvertFrom(image);
+               }
+            }
+         }
+         finally
+         {
+            dataHandle.Free();
+         }
+      }
+
       public WriteableBitmap ToWritableBitmap()
       {
          Size size = Size;
