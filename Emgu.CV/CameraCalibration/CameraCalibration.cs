@@ -413,7 +413,7 @@ namespace Emgu.CV
          {
             int lengthInBytes = d.Length * structureSize;
             GCHandle handle = GCHandle.Alloc(d, GCHandleType.Pinned);
-            Emgu.Util.Toolbox.memcpy(new IntPtr(address), handle.AddrOfPinnedObject(), lengthInBytes);
+            CvInvoke.cvMemcpy(new IntPtr(address), handle.AddrOfPinnedObject(), lengthInBytes);
             handle.Free();
             address += lengthInBytes;
          }

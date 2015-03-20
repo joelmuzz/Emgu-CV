@@ -207,60 +207,6 @@ namespace Emgu.Util
       }
 
       /// <summary>
-      /// Copy a generic vector to the unmanaged memory
-      /// </summary>
-      /// <typeparam name="TData">The data type of the vector</typeparam>
-      /// <param name="src">The source vector</param>
-      /// <param name="dest">Pointer to the destination unmanaged memory</param>
-      public static void CopyVector<TData>(TData[] src, IntPtr dest)
-      {
-         int size = Marshal.SizeOf(typeof(TData)) * src.Length;
-         GCHandle handle = GCHandle.Alloc(src, GCHandleType.Pinned);
-         memcpy(dest, handle.AddrOfPinnedObject(), size);
-         handle.Free();
-      }
-
-      /// <summary>
-      /// Copy a jagged two dimensional array to the unmanaged memory
-      /// </summary>
-      /// <typeparam name="TData">The data type of the jagged two dimensional</typeparam>
-      /// <param name="source">The source array</param>
-      /// <param name="dest">Pointer to the destination unmanaged memory</param>
-      public static void CopyMatrix<TData>(TData[][] source, IntPtr dest)
-      {
-         int datasize = Marshal.SizeOf(typeof(TData));
-         int step = datasize * source[0].Length;
-         int current = dest.ToInt32();
-
-         for (int i = 0; i < source.Length; i++, current += step)
-         {
-            GCHandle handle = GCHandle.Alloc(source[i], GCHandleType.Pinned);
-            memcpy(new IntPtr(current), handle.AddrOfPinnedObject(), step);
-            handle.Free();
-         }
-      }
-
-      /// <summary>
-      /// Copy a jagged two dimensional array from the unmanaged memory
-      /// </summary>
-      /// <typeparam name="D">The data type of the jagged two dimensional</typeparam>
-      /// <param name="src">The src array</param>
-      /// <param name="dest">Pointer to the destination unmanaged memory</param>
-      public static void CopyMatrix<D>(IntPtr src, D[][] dest)
-      {
-         int datasize = Marshal.SizeOf(typeof(D));
-         int step = datasize * dest[0].Length;
-         int current = src.ToInt32();
-
-         for (int i = 0; i < dest.Length; i++, current += step)
-         {
-            GCHandle handle = GCHandle.Alloc(dest[i], GCHandleType.Pinned);
-            memcpy(handle.AddrOfPinnedObject(), new IntPtr(current), step);
-            handle.Free();
-         }
-      }
-
-      /// <summary>
       /// Perform first degree interpolation give the sorted data <paramref name="src"/> and the interpolation <paramref name="indexes"/>
       /// </summary>
       /// <param name="src">The sorted data that will be interpolated from</param>
@@ -435,26 +381,6 @@ namespace Emgu.Util
          return a;
       }*/
 
-
-#if IOS || ANDROID
-      /// <summary>
-      /// memcpy function
-      /// </summary>
-      /// <param name="dest">the destination of memory copy</param>
-      /// <param name="src">the source of memory copy</param>
-      /// <param name="len">the number of bytes to be copied</param>
-      [DllImport("c", EntryPoint = "memcpy")]
-      public static extern void memcpy(IntPtr dest, IntPtr src, int len);
-#else
-      /// <summary>
-      /// memcpy function
-      /// </summary>
-      /// <param name="dest">the destination of memory copy</param>
-      /// <param name="src">the source of memory copy</param>
-      /// <param name="len">the number of bytes to be copied</param>
-      [DllImport("kernel32.dll", EntryPoint = "CopyMemory")]
-      public static extern void memcpy(IntPtr dest, IntPtr src, int len);
-#endif
       #endregion
 
       /// <summary>
@@ -464,28 +390,27 @@ namespace Emgu.Util
       /// <returns>The handle to the library</returns>
       public static IntPtr LoadLibrary(String dllname)
       {
+#if NETFX_CORE
+         return LoadPackagedLibrary(dllname, 0);
+#else
          if (Platform.OperationSystem == TypeEnum.OS.Windows)
          {
-            if (Platform.ClrType == TypeEnum.ClrType.NetFxCore)
-            {
-               const int LoadLibrarySearchDllLoadDir = 0x00000100;
-               const int LoadLibrarySearchDefaultDirs = 0x00001000;
-               return NetFxCoreLoadLibrary(dllname, IntPtr.Zero, LoadLibrarySearchDllLoadDir | LoadLibrarySearchDefaultDirs);
-            } else
-               return WinAPILoadLibrary(dllname);
+            return WinAPILoadLibrary(dllname);
          } else
          {
             return Dlopen(dllname, 2); // 2 == RTLD_NOW
          }
+#endif
       }
 
-      [DllImport("Kernel32.dll", EntryPoint="LoadLibraryEx")]
-      private static extern IntPtr NetFxCoreLoadLibrary(
+#if NETFX_CORE
+      [DllImport("Kernel32.dll", SetLastError = true)]
+      private static extern IntPtr LoadPackagedLibrary(
          [MarshalAs(UnmanagedType.LPStr)]
-         String fileName, 
-         IntPtr hFile,
+         String fileName,
          int dwFlags);
 
+#else
       [DllImport("kernel32.dll", EntryPoint="LoadLibrary")]
       private static extern IntPtr WinAPILoadLibrary(
          [MarshalAs(UnmanagedType.LPStr)]
@@ -511,6 +436,6 @@ namespace Emgu.Util
       /// <returns>True if success</returns>
       [DllImport("kernel32.dll")]
       public static extern bool SetDllDirectory(String path);
-
+#endif
    }
 }

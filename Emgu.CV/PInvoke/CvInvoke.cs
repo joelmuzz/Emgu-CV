@@ -251,7 +251,7 @@ namespace Emgu.CV
             Java.Lang.JavaSystem.LoadLibrary(module);
             Debug.WriteLine(string.Format("Loaded {0}.", module));
          }
-#elif IOS 
+#elif IOS || NETFX_CORE
 #else
          if (Platform.OperationSystem != Emgu.Util.TypeEnum.OS.MacOSX)
          {

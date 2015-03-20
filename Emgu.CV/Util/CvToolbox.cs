@@ -143,7 +143,7 @@ namespace Emgu.CV.Util
          for (int i = 0; i < rows; i++, dataPos += mat.step)
          {
             GCHandle handle = GCHandle.Alloc(data[i], GCHandleType.Pinned);
-            Emgu.Util.Toolbox.memcpy(new IntPtr(dataPos), handle.AddrOfPinnedObject(), rowSizeInBytes);
+            CvInvoke.cvMemcpy(new IntPtr(dataPos), handle.AddrOfPinnedObject(), rowSizeInBytes);
             handle.Free();
          }
          return res;
@@ -165,7 +165,7 @@ namespace Emgu.CV.Util
          {
             GCHandle handleTmp = GCHandle.Alloc(points[i], GCHandleType.Pinned);
             IntPtr dst = new IntPtr(cvMat.data.ToInt64() + cvMat.step * i);
-            Emgu.Util.Toolbox.memcpy(dst, handleTmp.AddrOfPinnedObject(), points[i].Length * Marshal.SizeOf(typeof(MCvPoint2D64f)));
+            CvInvoke.cvMemcpy(dst, handleTmp.AddrOfPinnedObject(), points[i].Length * Marshal.SizeOf(typeof(MCvPoint2D64f)));
             handleTmp.Free();
          }
          return res;

@@ -288,5 +288,8 @@ namespace Emgu.CV
          double minMatchDistance, int padX,
          int padY, int scales, double minScale, double maxScale,
          double orientationWeight, double truncate);
+
+      [DllImport(EXTERN_LIBRARY, CallingConvention = CvInvoke.CvCallingConvention)]
+      internal static extern void cvMemcpy(IntPtr dest, IntPtr source, int size);
    }
 }

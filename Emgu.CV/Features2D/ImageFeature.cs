@@ -65,8 +65,8 @@ namespace Emgu.CV.Features2D
          {
             features[i].KeyPoint = keyPoints[i];
             TDescriptor[] desc = new TDescriptor[sizeOfdescriptor];
-            GCHandle handler = GCHandle.Alloc(desc, GCHandleType.Pinned);
-            Toolbox.memcpy(handler.AddrOfPinnedObject(), new IntPtr(address), rowSizeInByte);
+            GCHandle handler = GCHandle.Alloc(desc, GCHandleType.Pinned);       
+            CvInvoke.cvMemcpy(handler.AddrOfPinnedObject(), new IntPtr(address), rowSizeInByte);
             handler.Free();
             features[i].Descriptor = desc;
          }
@@ -101,7 +101,7 @@ namespace Emgu.CV.Features2D
          for (int i = 0; i < features.Length; i++, address += header.step)
          {
             GCHandle handler = GCHandle.Alloc(features[i].Descriptor, GCHandleType.Pinned);
-            Toolbox.memcpy(new IntPtr(address), handler.AddrOfPinnedObject(), rowSizeInByte);
+            CvInvoke.cvMemcpy(new IntPtr(address), handler.AddrOfPinnedObject(), rowSizeInByte);
             handler.Free();
          }
       }

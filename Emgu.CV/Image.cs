@@ -2932,12 +2932,12 @@ namespace Emgu.CV
                default:
             #region Handle other image type
                   /*
-				               Bitmap bgraImage = new Bitmap(value.Width, value.Height, PixelFormat.Format32bppArgb);
-				               using (Graphics g = Graphics.FromImage(bgraImage))
-				               {
-				                  g.DrawImageUnscaled(value, 0, 0, value.Width, value.Height);
-				               }
-				               Bitmap = bgraImage;*/
+                           Bitmap bgraImage = new Bitmap(value.Width, value.Height, PixelFormat.Format32bppArgb);
+                           using (Graphics g = Graphics.FromImage(bgraImage))
+                           {
+                              g.DrawImageUnscaled(value, 0, 0, value.Width, value.Height);
+                           }
+                           Bitmap = bgraImage;*/
                   using (Image<Bgra, Byte> tmp1 = new Image<Bgra, Byte>(value.Size))
                   {
                      Byte[, ,] data = tmp1.Data;
@@ -3237,7 +3237,7 @@ namespace Emgu.CV
          using (PinnedArray<TDepth> row1 = new PinnedArray<TDepth>(cols1))
             for (int row = 0; row < Height; row++, data1 += step1)
             {
-               Toolbox.memcpy(row1.AddrOfPinnedObject(), new IntPtr(data1), width1);
+               CvInvoke.cvMemcpy(row1.AddrOfPinnedObject(), new IntPtr(data1), width1);
                foreach (TDepth v in row1.Array)
                   action(v);
             }
@@ -3269,8 +3269,8 @@ namespace Emgu.CV
 
          for (int row = 0; row < height1; row++, data1 += step1, data2 += step2)
          {
-            Toolbox.memcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
-            Toolbox.memcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
+            CvInvoke.cvMemcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
+            CvInvoke.cvMemcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
             for (int col = 0; col < cols1; action(row1[col], row2[col]), col++) ;
          }
          handle1.Free();
@@ -3302,9 +3302,9 @@ namespace Emgu.CV
 
          for (int row = 0; row < height1; row++, data1 += step1, data2 += step2)
          {
-            Toolbox.memcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
-            for (int col = 0; col < cols1; row2[col] = converter(row1[col], row, col / nchannel), col++) ;
-            Toolbox.memcpy((IntPtr)data2, handle2.AddrOfPinnedObject(), width2);
+            CvInvoke.cvMemcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
+            for (int col = 0; col < cols1; row2[col] = converter(row1[col], row, col / nchannel), col++);
+            CvInvoke.cvMemcpy((IntPtr)data2, handle2.AddrOfPinnedObject(), width2);
          }
          handle1.Free();
          handle2.Free();
@@ -3332,9 +3332,9 @@ namespace Emgu.CV
          GCHandle handle2 = GCHandle.Alloc(row2, GCHandleType.Pinned);
          for (int row = 0; row < height1; row++, data1 += step1, data2 += step2)
          {
-            Toolbox.memcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
+            CvInvoke.cvMemcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
             for (int col = 0; col < cols1; row2[col] = converter(row1[col]), col++) ;
-            Toolbox.memcpy((IntPtr)data2, handle2.AddrOfPinnedObject(), width2);
+            CvInvoke.cvMemcpy((IntPtr)data2, handle2.AddrOfPinnedObject(), width2);
          }
          handle1.Free();
          handle2.Free();
@@ -3371,10 +3371,10 @@ namespace Emgu.CV
 
          for (int row = 0; row < height1; row++, data1 += step1, data2 += step2, data3 += step3)
          {
-            Toolbox.memcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
-            Toolbox.memcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
+            CvInvoke.cvMemcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
+            CvInvoke.cvMemcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
             for (int col = 0; col < cols1; row3[col] = converter(row1[col], row2[col]), col++) ;
-            Toolbox.memcpy((IntPtr)data3, handle3.AddrOfPinnedObject(), width3);
+            CvInvoke.cvMemcpy((IntPtr)data3, handle3.AddrOfPinnedObject(), width3);
          }
 
          handle1.Free();
@@ -3421,13 +3421,13 @@ namespace Emgu.CV
 
          for (int row = 0; row < height1; row++, data1 += step1, data2 += step2, data3 += step3, data4 += step4)
          {
-            Toolbox.memcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
-            Toolbox.memcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
-            Toolbox.memcpy(handle3.AddrOfPinnedObject(), (IntPtr)data3, width3);
+            CvInvoke.cvMemcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
+            CvInvoke.cvMemcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
+            CvInvoke.cvMemcpy(handle3.AddrOfPinnedObject(), (IntPtr)data3, width3);
 
             for (int col = 0; col < cols1; row4[col] = converter(row1[col], row2[col], row3[col]), col++) ;
 
-            Toolbox.memcpy((IntPtr)data4, handle4.AddrOfPinnedObject(), width4);
+            CvInvoke.cvMemcpy((IntPtr)data4, handle4.AddrOfPinnedObject(), width4);
          }
          handle1.Free();
          handle2.Free();
@@ -3481,13 +3481,13 @@ namespace Emgu.CV
 
          for (int row = 0; row < height1; row++, data1 += step1, data2 += step2, data3 += step3, data4 += step4, data5 += step5)
          {
-            Toolbox.memcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
-            Toolbox.memcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
-            Toolbox.memcpy(handle3.AddrOfPinnedObject(), (IntPtr)data3, width3);
-            Toolbox.memcpy(handle4.AddrOfPinnedObject(), (IntPtr)data4, width4);
+            CvInvoke.cvMemcpy(handle1.AddrOfPinnedObject(), (IntPtr)data1, width1);
+            CvInvoke.cvMemcpy(handle2.AddrOfPinnedObject(), (IntPtr)data2, width2);
+            CvInvoke.cvMemcpy(handle3.AddrOfPinnedObject(), (IntPtr)data3, width3);
+            CvInvoke.cvMemcpy(handle4.AddrOfPinnedObject(), (IntPtr)data4, width4);
 
             for (int col = 0; col < cols1; row5[col] = converter(row1[col], row2[col], row3[col], row4[col]), col++) ;
-            Toolbox.memcpy((IntPtr)data5, handle5.AddrOfPinnedObject(), width5);
+            CvInvoke.cvMemcpy((IntPtr)data5, handle5.AddrOfPinnedObject(), width5);
          }
          handle1.Free();
          handle2.Free();

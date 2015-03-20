@@ -496,7 +496,7 @@ namespace Emgu.CV.Features2D
                }
                imgFeature.KeyPoint = modelKeyPoints[idx];
                imgFeature.Descriptor = new TDescriptor[descriptorLength];
-               Emgu.Util.Toolbox.memcpy(address, new IntPtr(modelPtr + modelStep * idx), descriptorSizeInByte);
+               CvInvoke.cvMemcpy(address, new IntPtr(modelPtr + modelStep * idx), descriptorSizeInByte);
                tmp.CopyTo(imgFeature.Descriptor, 0);
                features[j].Feature = imgFeature;
             }
@@ -505,7 +505,7 @@ namespace Emgu.CV.Features2D
             ImageFeature<TDescriptor> observedFeature = new ImageFeature<TDescriptor>();
             observedFeature.KeyPoint = observedKeyPoints[i];
             observedFeature.Descriptor = new TDescriptor[descriptorLength];
-            Emgu.Util.Toolbox.memcpy(address, new IntPtr(observedPtr + observedStep * i), descriptorSizeInByte);
+            CvInvoke.cvMemcpy(address, new IntPtr(observedPtr + observedStep * i), descriptorSizeInByte);
             tmp.CopyTo(observedFeature.Descriptor, 0);
             result[resultIdx].ObservedFeature = observedFeature;
             resultIdx++;
