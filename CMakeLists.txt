@@ -495,7 +495,7 @@ ELSEIF (WIN32)
   # ----------------------------------------------------------------------------
   #  Bundle MSCVRT into deployment package
   # ----------------------------------------------------------------------------
-  IF(MSVC)
+  IF(MSVC AND (NOT NETFX_CORE))
     IF(MSVC11)
 	  SET(MSVC_REDIST_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/miscellaneous/msvc11_redist")
     ELSEIF(MSVC10)
