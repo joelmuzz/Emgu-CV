@@ -110,7 +110,7 @@ namespace Emgu.CV.ML
             int length = samples.Cols * sizeof(float);
             for (int i = 0; i < elements; i++)
             {
-               Emgu.Util.Toolbox.memcpy(new IntPtr(dataAddress + i * step), neighbors[i], length);
+               CvInvoke.cvMemcpy(new IntPtr(dataAddress + i * step), neighbors[i], length);
             }
          }
          return res;

@@ -290,6 +290,6 @@ namespace Emgu.CV
          double orientationWeight, double truncate);
 
       [DllImport(EXTERN_LIBRARY, CallingConvention = CvInvoke.CvCallingConvention)]
-      internal static extern void cvMemcpy(IntPtr dest, IntPtr source, int size);
+      public static extern void cvMemcpy(IntPtr dest, IntPtr source, int size);
    }
 }
