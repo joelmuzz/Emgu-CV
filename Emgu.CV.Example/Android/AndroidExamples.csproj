@@ -93,9 +93,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xamarin.Mobile, Version=0.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xamarin.Mobile, Version=0.7.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Solution\Android\Components\xamarin.mobile-0.6.3\lib\android\Xamarin.Mobile.dll</HintPath>
+      <HintPath>..\..\Solution\Android\Components\xamarin.mobile-0.7.6\lib\android\Xamarin.Mobile.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -243,7 +243,7 @@
   <ItemGroup>
     <XamarinComponentReference Include="xamarin.mobile">
       <Visible>False</Visible>
-      <Version>0.6.3</Version>
+      <Version>0.7.6</Version>
     </XamarinComponentReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
